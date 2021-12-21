@@ -54,11 +54,11 @@ public class TUID {
 
     private String nextUUSeq() {
         long mills = System.currentTimeMillis();
-        Byte62.to62(mills, bytes, 0, 7);
 
         if (mills > baseExpiredTime) {
             initBase();
             lastMills = mills;
+            Byte62.to62(mills, bytes, 0, 7);
         } else {
             if (lastMills == mills) {
                 seqPerMill++;
@@ -68,6 +68,7 @@ public class TUID {
             } else {
                 lastMills = mills;
                 seqPerMill = 0;
+                Byte62.to62(mills, bytes, 0, 7);
             }
         }
 
