@@ -37,6 +37,7 @@ TUID的另外10位62进制数又会进一步分拆成两部分：7位所代表�
 相应的解决方案有二：去掉唯一性的约束；或者创建表的时候声明traceId是大小写敏感或binary类型。
 
 比如，对于下面的两个表test1和test2,
+<p>
   CREATE TABLE test1 (
     trace_id        varchar(40) not null,
     span_id         varchar(40) not null,
@@ -48,5 +49,5 @@ TUID的另外10位62进制数又会进一步分拆成两部分：7位所代表�
     span_id         varchar(40) not null,
     PRIMARY KEY(trace_id, span_id)
   ) default charset=utf8;
-
+</p>
 
