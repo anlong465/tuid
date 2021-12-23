@@ -34,6 +34,7 @@ TUID的另外10位62进制数又会进一步分拆成两部分：7位所代表�
 
 # 已知问题及应对之道
 显然，TUID是大小写字母敏感的。但有些持久层（比如MySQL）缺省情况下对于值也是不区分大小写，那么持久化Span的时候，就有小概率遇上主键冲突的问题：Duplicate entry 'xxx' for key primary。
+
 相应的解决方案有二：去掉唯一性的约束；或者创建表的时候声明traceId是大小写敏感或binary类型。
 
 比如，对于下面的两个表test1和test2,
@@ -50,4 +51,7 @@ TUID的另外10位62进制数又会进一步分拆成两部分：7位所代表�
     PRIMARY KEY(trace_id, span_id)<br>
   ) default charset=utf8;<br>
 </p>
-
+那么当对上述两表均插入如下两行数据的时候，<br>
+insert into test (trace_id, span_id) values ('SsOEnOm0-0aBP-KWLx-Kem0-0rKkGBBVn6Fx', '1');<br>
+insert into test (trace_id, span_id) values ('SsOENOm0-0aBP-KWLx-Kem0-0rKkGBBVn6Fx', '1');<br>
+第一行数据均能成功插入，但第二行数据就只能test2才能成功插入。
