@@ -8,9 +8,9 @@ import java.util.UUID;
 
 public class TestMain {
     public final static void main(String[] args) {
-        System.out.println(new Date(Byte62.toTimemills("Ss6mcvo")));
+        System.out.println(new Date(Byte62.toTimemills("SsNSOrr")));
 
-        for(int i = 0; i < 100000; i++) {
+        for(int i = 0; i < 10000; i++) {
             System.out.println(TUID.next());
         }
 

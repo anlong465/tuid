@@ -14,7 +14,7 @@ public class TUID {
 
     private final byte[] bytes = new byte[36];
     private long lastMills = 0;
-    private int seqPerMill = 0;
+    private int sequence = 0;
 
     private long baseExpiredTime = 0;
 
@@ -49,7 +49,11 @@ public class TUID {
 
         Byte62.to62(base.getLeastSignificantBits(), bytes, 25, 11);
 
-        seqPerMill = 0;
+        sequence = 0;
+        bytes[7] = Byte62.BYTE62[0];
+        bytes[22] = Byte62.BYTE62[0];
+        bytes[24] = Byte62.BYTE62[0];
+
     }
 
     private String nextUUSeq() {
@@ -61,22 +65,22 @@ public class TUID {
             Byte62.to62(mills, bytes, 0, 7);
         } else {
             if (lastMills == mills) {
-                seqPerMill++;
-                if (seqPerMill >= Byte62.MAX3) {
+                sequence++;
+                if (sequence >= Byte62.MAX3) {
                     initBase();
+                } else {
+                    bytes[7] = Byte62.BYTE62[sequence % 62];
+                    int tmp = sequence / 62;
+
+                    bytes[22] = Byte62.BYTE62[tmp % 62];
+                    bytes[24] = Byte62.BYTE62[tmp / 62];
                 }
             } else {
                 lastMills = mills;
-                seqPerMill = 0;
                 Byte62.to62(mills, bytes, 0, 7);
             }
         }
 
-        bytes[7] = Byte62.BYTE62[seqPerMill % 62];
-        int tmp = seqPerMill / 62;
-
-        bytes[22] = Byte62.BYTE62[tmp % 62];
-        bytes[24] = Byte62.BYTE62[tmp / 62];
 
         return new String(bytes);
     }
