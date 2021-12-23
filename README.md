@@ -52,6 +52,6 @@ TUID的另外10位62进制数又会进一步分拆成两部分：7位所代表�
   ) default charset=utf8;<br>
 </p>
 那么当对上述两表均插入如下两行数据的时候，<br>
-insert into test (trace_id, span_id) values ('SsOEnOm0-0aBP-KWLx-Kem0-0rKkGBBVn6Fx', '1');<br>
-insert into test (trace_id, span_id) values ('SsOENOm0-0aBP-KWLx-Kem0-0rKkGBBVn6Fx', '1');<br>
+insert into test (trace_id, span_id) values ('AAA', '1');<br>
+insert into test (trace_id, span_id) values ('aaa', '1');<br>
 第一行数据均能成功插入，但第二行数据就只能test2才能成功插入。
