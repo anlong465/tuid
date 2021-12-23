@@ -38,16 +38,16 @@ TUID的另外10位62进制数又会进一步分拆成两部分：7位所代表�
 
 比如，对于下面的两个表test1和test2,
 <p>
-  CREATE TABLE test1 (
-    trace_id        varchar(40) not null,
-    span_id         varchar(40) not null,
-    PRIMARY KEY(trace_id, span_id)
+  CREATE TABLE test1 (<br>
+    trace_id        varchar(40) not null,<br>
+    span_id         varchar(40) not null,<br>
+    PRIMARY KEY(trace_id, span_id)<br>
   ) default charset=utf8;
   
-  CREATE TABLE test2 (
-    trace_id        varchar(40) <b>binary</b> not null,
-    span_id         varchar(40) not null,
-    PRIMARY KEY(trace_id, span_id)
-  ) default charset=utf8;
+  CREATE TABLE test2 (<br>
+    trace_id        varchar(40) <b>binary</b> not null,<br>
+    span_id         varchar(40) not null,<br>
+    PRIMARY KEY(trace_id, span_id)<br>
+  ) default charset=utf8;<br>
 </p>
 
