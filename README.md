@@ -32,3 +32,21 @@ TUID的另外10位62进制数又会进一步分拆成两部分：7位所代表�
 <li>基于ThreadLocal，确保每个线程均有其独有的UUID种子。而当UUID种子不发生变化时，每次生成TUID，实际上只需重新计算出时间戳和顺序码，其计算量是很轻量级。</li>
 <li>事实上，针对TUID的生成和UUID的生成，分别进行3千万次压测测试，单次生成平均所耗的时间分别为200纳秒和520纳秒，也就是TUID生成时间约为UUID生成时间的40%。</li>
 
+# 已知问题及应对之道
+显然，TUID是大小写字母敏感的。但有些持久层（比如MySQL）缺省情况下对于值也是不区分大小写，那么持久化Span的时候，就有小概率遇上主键冲突的问题：Duplicate entry 'xxx' for key primary。
+相应的解决方案有二：去掉唯一性的约束；或者创建表的时候声明traceId是大小写敏感或binary类型。
+
+比如，对于下面的两个表test1和test2,
+  CREATE TABLE test1 (
+    trace_id        varchar(40) not null,
+    span_id         varchar(40) not null,
+    PRIMARY KEY(trace_id, span_id)
+  ) default charset=utf8;
+  
+  CREATE TABLE test2 (
+    trace_id        varchar(40) <b>binary</b> not null,
+    span_id         varchar(40) not null,
+    PRIMARY KEY(trace_id, span_id)
+  ) default charset=utf8;
+
+
