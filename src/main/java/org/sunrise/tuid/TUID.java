@@ -64,23 +64,21 @@ public class TUID {
             lastMills = mills;
             Byte62.to62(mills, bytes, 0, 7);
         } else {
-            if (lastMills == mills) {
-                sequence++;
-                if (sequence >= Byte62.MAX3) {
-                    initBase();
-                } else {
-                    bytes[7] = Byte62.BYTE62[sequence % 62];
-                    int tmp = sequence / 62;
-
-                    bytes[22] = Byte62.BYTE62[tmp % 62];
-                    bytes[24] = Byte62.BYTE62[tmp / 62];
-                }
+            sequence++;
+            if (sequence >= Byte62.MAX3) {
+                initBase();
             } else {
+                bytes[7] = Byte62.BYTE62[sequence % 62];
+                int tmp = sequence / 62;
+
+                bytes[22] = Byte62.BYTE62[tmp % 62];
+                bytes[24] = Byte62.BYTE62[tmp / 62];
+            }
+            if (lastMills != mills) {
                 lastMills = mills;
                 Byte62.to62(mills, bytes, 0, 7);
             }
         }
-
 
         return new String(bytes);
     }
